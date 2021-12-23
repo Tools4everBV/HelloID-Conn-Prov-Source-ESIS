@@ -1,0 +1,118 @@
+{
+    "personMappings": [
+        {
+            "name": "Details.BirthDate",
+            "mode": "field",
+            "value": "geboortedatum",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Details.Gender",
+            "mode": "field",
+            "value": "geslacht",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "ExternalId",
+            "mode": "field",
+            "value": "ExternalId",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Name.Convention",
+            "mode": "field",
+            "value": "Convention",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Name.FamilyName",
+            "mode": "field",
+            "value": "achternaam",
+            "validation": {
+                "required": true
+            }
+        },
+        {
+            "name": "Name.NickName",
+            "mode": "field",
+            "value": "roepnaam",
+            "validation": {
+                "required": true
+            }
+        }
+    ],
+    "contractMappings": [
+        {
+            "name": "EndDate",
+            "mode": "field",
+            "value": "endDate",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "ExternalId",
+            "mode": "field",
+            "value": "key",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "StartDate",
+            "mode": "field",
+            "value": "startDate",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Team.Name",
+            "mode": "field",
+            "value": "jaargroep",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Title.ExternalId",
+            "mode": "field",
+            "value": "TitleCode",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Title.Name",
+            "mode": "field",
+            "value": "TitleName",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Type.Code",
+            "mode": "field",
+            "value": "GroupType",
+            "validation": {
+                "required": false
+            }
+        },
+        {
+            "name": "Type.Description",
+            "mode": "field",
+            "value": "omschrijving",
+            "validation": {
+                "required": false
+            }
+        }
+    ]
+}

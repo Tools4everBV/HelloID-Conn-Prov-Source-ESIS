@@ -1,0 +1,90 @@
+[
+    {
+      "key": "BaseUrl",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "BaseUrl",
+        "placeholder": "https://<CustomerUrl>/UWLR/UwlrStandaard2.2.svc",
+        "description": "The URL to the API.",
+        "required": true
+      }
+    },
+    {
+      "key": "Autorisatiesleutel",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Autorisatiesleutel",
+        "description": "The UserName to connect to the API",
+        "type": "password",
+        "required": true
+      }
+    },
+    {
+      "key": "Klantcode",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Klantcode",
+        "required": true
+      }
+    },
+    {
+      "key": "Klantnaam",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Klantnaam",
+        "required": true
+      }
+    },
+    {
+      "key": "brinIdentifiers",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "description": "Brin Indentifers (Comma sperated string)",
+        "placeholder": "X3X3, Z3Z0",
+        "label": "brinIdentifiers",
+        "required": true
+      }
+    },
+    {
+      "key": "Certpath",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Certpath",
+        "required": true
+      }
+    },
+    {
+      "key": "Certpassword",
+      "type": "input",
+      "defaultValue": "",
+      "templateOptions": {
+        "label": "Certpassword",
+        "type": "password",
+        "required": true
+      }
+    },
+    {
+      "key": "XsdVersie",
+      "type": "input",
+      "defaultValue": "1",
+      "templateOptions": {
+        "label": "XsdVersie",
+        "required": true
+      }
+    },
+    {
+      "key": "dependancecode",
+      "type": "input",
+      "defaultValue": "00",
+      "templateOptions": {
+        "label": "dependancecode",
+        "required": false
+      }
+    }
+  ]
