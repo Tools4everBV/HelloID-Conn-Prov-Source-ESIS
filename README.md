@@ -48,7 +48,7 @@ The following settings are required to connect to the API.
 
 ### Prerequisites
  - A Certificate to authenticate with the webservice (.p12)
- - A agent server with access to the certificate
+ - A agent server with access to the certificate (local HelloID Agent)
  - Windows Powershell 5.1
  - The Mandatory field from the connector Settings.
 
