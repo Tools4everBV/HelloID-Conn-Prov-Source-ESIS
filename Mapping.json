@@ -24,10 +24,26 @@
                 "required": false
             }
         },
+		{
+			"name": "Location.ExternalId",
+			"mode": "field",
+			"value": "Brin",
+			"validation": {
+				"required": false
+			}
+		},
+		{
+			"name": "Location.Name",
+			"mode": "field",
+			"value": "Brin",
+			"validation": {
+				"required": false
+			}
+		},
         {
             "name": "Name.Convention",
-            "mode": "field",
-            "value": "Convention",
+			"mode": "fixed",
+			"value": "B",
             "validation": {
                 "required": false
             }
@@ -40,6 +56,14 @@
                 "required": true
             }
         },
+		{
+			"name": "Name.FamilyNamePrefix",
+			"mode": "field",
+			"value": "voorvoegsel",
+			"validation": {
+				"required": false
+			}
+		},
         {
             "name": "Name.NickName",
             "mode": "field",
@@ -78,22 +102,6 @@
             "name": "Team.Name",
             "mode": "field",
             "value": "jaargroep",
-            "validation": {
-                "required": false
-            }
-        },
-        {
-            "name": "Title.ExternalId",
-            "mode": "field",
-            "value": "TitleCode",
-            "validation": {
-                "required": false
-            }
-        },
-        {
-            "name": "Title.Name",
-            "mode": "field",
-            "value": "TitleName",
             "validation": {
                 "required": false
             }

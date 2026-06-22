@@ -11,9 +11,6 @@
 ########################################################################
 $VerbosePreference = "Continue"
 
-# Example configuration
-# $configuration = '{ "BaseUrl": "https://12345.rovictonline.nl/uwlr2.2.svc", "AuthBrinKeys": "[ { } ]"'
-
 $config = $configuration | ConvertFrom-Json
 $configAuth = $config.AuthBrinKeys | ConvertFrom-Json
 
@@ -94,7 +91,7 @@ xsi:schemaLocation="
     <le:schooljaar></le:schooljaar>
     <le:brincode></le:brincode>
     <le:dependancecode></le:dependancecode>
-    <le:xsdversie>2.2</le:xsdversie>
+    <le:xsdversie>2.3</le:xsdversie>
     </le:leerlinggegevens_verzoek>
 </SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
@@ -108,26 +105,23 @@ xsi:schemaLocation="
         $body.Envelope.Body.leerlinggegevens_verzoek.brincode = $brinCode
         $body.Envelope.Body.leerlinggegevens_verzoek.xsdversie = "$($config.xsdversie)"
         $body.Envelope.Body.leerlinggegevens_verzoek.dependancecode = "$($dependanceCode)"
-
+        
         $headers = @{
             SoapAction = 'HaalLeerlinggegevens'
         }
-
-        $body.InnerXml
-
-        $spatWebrequest = @{
+        
+        $splatWebrequest = @{
             Method          = "POST"
             Uri             = $config.BaseUrl
             Certificate     = $script:Certificate
-            body            = $body.InnerXml
+            Body            = $body.InnerXml
             ContentType     = 'text/xml; charset=utf-8'
             Headers         = $headers
             UseBasicParsing = $true
         }
 
-        Write-Verbose "Invoking command [Invoke-WebRequest] to endpoint [$($spatWebrequest.Uri)] with SoapAction [$($headers.SoapAction)]"
-        $response = Invoke-WebRequest  @spatWebrequest -Verbose:$false
-
+        Write-Verbose "Invoking command [Invoke-WebRequest] to endpoint [$($splatWebrequest.Uri)] with SoapAction [$($headers.SoapAction)]"
+        $response = Invoke-WebRequest  @splatWebrequest -Verbose:$false
         $rawResponse = ([xml]$response.content).Envelope.body.leerlinggegevens_antwoord.leerlinggegevens
 
         # Add list to variables
@@ -167,7 +161,7 @@ xsi:schemaLocation="
                     jaargroep = $groupSelected.jaargroep
                     GroupType = 'Group'
                     startDate = [datetime]"$($schoolYear.split('-')[0])-08-01"
-                    endDate   = [datetime]"$($schoolYear.split('-')[1])-08-01"
+                    endDate   = [datetime]"$($schoolYear.split('-')[1])-07-31"
                 }
                 $contractList.Add($groupObject)
             }
@@ -181,7 +175,7 @@ xsi:schemaLocation="
                     omschrijving = $subGroupSelected.omschrijving
                     GroupType    = 'SubGroup'
                     startDate    = [datetime]"$($schoolYear.split('-')[0])-08-01"
-                    endDate      = [datetime]"$($schoolYear.split('-')[1])-08-01"
+                    endDate      = [datetime]"$($schoolYear.split('-')[1])-07-31"
                 }
                 $contractList.Add($groupObject)
             }
@@ -198,20 +192,33 @@ xsi:schemaLocation="
 }
 
 try {
-    Import-ESISCertificate -CertificatePath $config.certPath  -CertificatePassword $config.certPassword
+    Write-Verbose "Retrieving cerficitate"
+    if (-not[string]::IsNullOrEmpty($config.CertificateBase64)) {
+        Write-Verbose "Converting certificate"
+        # Use for cloud PowerShell flow
+        $RAWCertificate = [system.convert]::FromBase64String($config.CertificateBase64)
+        $script:Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($RAWCertificate, $config.certPassword)
+    }
+    elseif (-not [string]::IsNullOrEmpty($config.certPath)) {
+        Write-Verbose "Importing certificate"
+        Import-ESISCertificate -CertificatePath $config.certPath  -CertificatePassword $config.certPassword
+    }
+    else {
+        Throw "No certificate configured"
+    }
 
     $data = [System.Collections.ArrayList]::new()
 
     foreach ($auth in $configAuth) {
-        Get-ESISBrinData -Autorisatiesleutel $auth.key -Brin $auth.brin ([ref]$data)
+        Write-Verbose "Retrieving data for brin: $($auth.brin)"
+        Get-ESISBrinData -Autorisatiesleutel $auth.key -Brin ($auth.brin) ([ref]$data)
     }
-
     $unique = $data | Sort-Object "ExternalId" -Unique
 
     Write-Verbose -Verbose $unique.count
 
     foreach ($person in $unique) {
-        Write-Output ($person | ConvertTo-Json -Depth 3)
+        Write-Output ($person | ConvertTo-Json -Depth 10)
     }
 }
 catch {

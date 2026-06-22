@@ -151,8 +151,21 @@ xsi:schemaLocation="
 }
 
 try {
-    Import-ESISCertificate -CertificatePath $config.certPath  -CertificatePassword $config.certPassword
-
+    Write-Verbose "Retrieving cerficitate"
+    if (-not[string]::IsNullOrEmpty($config.CertificateBase64)) {
+        Write-Verbose "Converting certificate"
+        # Use for cloud PowerShell flow
+        $RAWCertificate = [system.convert]::FromBase64String($config.CertificateBase64)
+        $script:Certificate = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new($RAWCertificate, $config.certPassword)
+    }
+    elseif (-not [string]::IsNullOrEmpty($config.certPath)) {
+        Write-Verbose "Importing certificate"
+        Import-ESISCertificate -CertificatePath $config.certPath  -CertificatePassword $config.certPassword
+    }
+    else {
+        Throw "No certificate configured"
+    }
+    
     foreach ($auth in $configAuth) {
         Get-ESISBrinData -Autorisatiesleutel $auth.key -Brin $auth.brin
     }

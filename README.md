@@ -1,9 +1,5 @@
 # HelloID-Conn-Prov-Source-ESIS
 
-| :warning: Warning |
-|:---------------------------|
-| Note that this connector is not yet implemented. Contact our support for further assistance       |
-
 | :information_source: Information |
 |:---------------------------|
 | This repository contains the connector and configuration code only. The implementer is responsible to acquire the connection details such as username, password, certificate, etc. You might even need to sign a contract or agreement with the supplier before implementing this connector. Please contact the client's application manager to coordinate the connector requirements.       |
@@ -39,26 +35,26 @@ The following settings are required to connect to the API.
 
 | Setting           | Description                        | Mandatory   |
 | ------------      | -----------                        | ----------- |
-| BaseUrl           | The URL to the webservice                 | Yes         |
-| Autorisatiesleutel   | Authorization key for the webservice | Yes         |
+| BaseUrl           | The URL to the webservice          | Yes         |
+| AuthBrinKeys      | Authorization key per brin for the webservice | Yes         |
 | Klantcode         | -                                  | Yes         |
 | Klantnaam         | -                                  | Yes         |
-| brinIdentifiers   | Brin Indentifers (Comma sperated string)    | Yes         |
-| Certpath          | Fullpath to the Certifcate (.p12)  | Yes         |
+| CertificateBase64 | Base 64 encoded certificate        | No         |
+| Certpath          | Fullpath to the Certifcate (.p12)  | No         |
 | Certpassword      | Certificate passwword              | Yes         |
 | Xsdversie         | Default 1                          | No         |
-| dependancecode    | School Location code (Default = 00)       | No         |
 
 ### Prerequisites
  - A Certificate to authenticate with the webservice (.p12)
- - A agent server with access to the certificate (local HelloID Agent)
- - Windows Powershell 5.1
  - The Mandatory field from the connector Settings.
 
 
 ### Remarks
  - Active Other groups and Instructiongroups are delivered by the connector when the property “In koppelingen beschikbaar” In ESIS at the group is marked as Yes. The groups can be found in the node subgroups.
  - The connector only retrieves the students of the current Schoolyear, so it is not able to retrieve from the past and upcoming students.
+ - A certificate and password can by requested at ROVICT 
+ - The authorization keys can be created in Esis itself
+ - The format for the authorization keys is json: [{"brin":"12AB.00","key":"KEY1"},{"brin":"34CD.00","key":"KEY2"}]
 
 ## Setup the connector
 
